@@ -1,40 +1,21 @@
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components';
 
 const BUTTON_STYLE = {
   primary: css`
-    background: #5a331a;
+    background: var(--brown-40);
     color: white;
 
     &:hover {
-      background: #542f1a;
-      box-shadow: 0 0 0 2px #341909 inset;
+      background: var(--brown-40);
+      box-shadow: 0 0 0 2px var(--brown-50) inset;
     }
 
     &:active {
-      background: #341909;
+      background: var(--brown-50);
     }
 
     &:disabled {
       opacity: 0.5;
-      cursor: default;
-      pointer-events: none;
-    }
-  `,
-  outline: css`
-    background: #f5f1ee;
-    color: #5a331a;
-    box-shadow: 0 0 0 1px #542f1a inset;
-    &:hover {
-      background: #f5f1ee;
-      box-shadow: 0 0 0 2px #542f1a inset;
-    }
-
-    &:active {
-      background: #e4d5c9;
-    }
-    &:disabled {
-      opacity: 0.5;
-      background: #f5f1ee;
       cursor: default;
       pointer-events: none;
     }
@@ -42,38 +23,51 @@ const BUTTON_STYLE = {
       filter: invert(1);
     }
   `,
+  outline: css`
+    background: var(--brown-10);
+    color: var(--brown-40);
+    box-shadow: 0 0 0 1px var(--brown-40) inset;
+    &:hover {
+      background: var(--brown-10);
+      box-shadow: 0 0 0 2px var(--brown-40) inset;
+    }
+
+    &:active {
+      background: var(--brown-20);
+    }
+    &:disabled {
+      opacity: 0.5;
+      background: var(--brown-10);
+      cursor: default;
+      pointer-events: none;
+    }
+  `,
 };
 
 const Button = styled.button`
-  font-family: "pretendard";
-  border: none;
-  padding: ${({ small }) => (small ? "8px 12px" : "12px 24px")};
-  font-size: ${({ small }) => (small ? "14px" : "16px")};
-  cursor: pointer;
-
-  ${({ type }) => BUTTON_STYLE[type]}
-
-  border-radius: ${({ round }) => (round ? "200px" : "8px")};
-  ${({ arrow }) =>
-    arrow &&
+  display: inline-flex;
+  align-items: center;
+  font-family: 'pretendard';
+  height: ${({ $small }) => ($small ? '34px' : '46px')};
+  padding: ${({ $small }) => ($small ? '0px 12px' : '0px 24px')};
+  font-size: ${({ $small }) => ($small ? '14px' : '16px')};
+  border-radius: ${({ $round }) => ($round ? '200px' : '8px')};
+  ${({ $arrow }) =>
+    $arrow &&
     css`
       &::after {
-        content: "";
+        content: '';
         display: inline-block;
         vertical-align: middle;
         width: 18px;
         height: 18px;
         margin-left: 8px;
-        background-image: url("src/assets/arrowRight.svg");
+        background-image: url('src/assets/icons/icon-arrow-right.svg');
+        background-size: cover;
       }
     `}
-  ${({ large }) =>
-    large &&
-    css`
-      padding: 14.5px 49.5px;
-      font-size: 20px;
-      box-shadow: 0 4px 5px 0px #949494;
-    `}
+
+  ${({ type }) => BUTTON_STYLE[type]}
 `;
 
 export default Button;
