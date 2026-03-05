@@ -1,0 +1,58 @@
+:root {
+  --grayScale-10: #ffffff;
+  --grayScale-20: #f9f9f9;
+  --grayScale-30: #cfcfcf;
+  --grayScale-40: #818181;
+  --grayScale-50: #515151;
+  --grayScale-60: #000000;
+
+  --brown-10: #f5f1ee;
+  --brown-20: #e4d5c9;
+  --brown-30: #c7bbb5;
+  --brown-40: #542f1a;
+  --brown-50: #341909;
+
+  --blue-50: #1877f2;
+
+  --yellow-50: #fee500;
+
+  --red-50: #b93333;
+
+  --shadow-1pt: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+  --shadow-2pt: 0 4px 12px 0 rgba(0, 0, 0, 0.1);
+  --shadow-3pt: 0 12px 24px 2px rgba(0, 0, 0, 0.4);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Pretendard;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
