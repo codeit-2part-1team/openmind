@@ -45,6 +45,7 @@ const StyledButton = styled.button`
   ${({ variant }) =>
     variant === 'outline' &&
     `
+      border:1px solid var(--brown-40);
       background-color: var(--brown-10);
       color: var(--brown-40);
       &:hover {
@@ -66,7 +67,7 @@ const StyledButton = styled.button`
 
 export default function Button({ variant, size, children, ...props }) {
   return (
-    <StyledButton $variant={variant} size={size} {...props}>
+    <StyledButton variant={variant} size={size} {...props}>
       {children}
       <img src={ArrowIcon} />
     </StyledButton>
