@@ -32,7 +32,7 @@ const StyledButton = styled.button`
     width: 18px;
     margin-left: 8px;
   }
-  // 1. 크기 (Size) 설정
+  // 크기 (Size) 설정
   ${({ size }) =>
     size === 'small' &&
     `
@@ -41,7 +41,7 @@ const StyledButton = styled.button`
       height: 34px;
     `}
 
-  // 2. 종류 (Variant) 설정
+  // 종류 (Variant) 설정
   ${({ variant }) =>
     variant === 'outline' &&
     `
@@ -74,7 +74,6 @@ export default function Button({ variant, size, children, ...props }) {
 }
 
 /* 사용 예시
-
   <Button variant="primary">기본 버튼</Button>
   <Button variant="outline">작은 버튼</Button>
   <Button variant="primary" size="small">
