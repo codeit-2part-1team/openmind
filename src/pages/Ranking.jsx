@@ -3,52 +3,78 @@ import Button from '../components/common/Button';
 import Logo from '../components/common/Logo';
 import UserCard from '../components/common/UserCard';
 import LikeButton from '../components/common/LikeButton';
+import { useEffect, useState } from 'react';
+import axiosInstance from '../apis/axiosInstance';
+// import axios from 'axios';
+import { Link } from 'react-router-dom';
 
-function Lanking() {
-  const bestUser = [
-    {
-      id: 1,
-      question: '안녕하세요',
-      date: '2주전',
-    },
-    {
-      id: 2,
-      question:
-        '유튜브 재생시 자동으로 음소거가 되어있는데 이거 푸는방법 아실까요? 처음 메인화면에서 구독하고 있는 영상들 클릭하고 재생하려고 하면 처음부터 음소거가 자동으로 설정 되어있습니다. 매번 음소거 버튼을 눌러서 음소거를 풀어야 하는데 이거 왜이러는지 아실까요?',
-      date: '2주전',
-    },
-    {
-      id: 3,
-      question:
-        '갤럭시 S26 프라이버시 화면, 어떻게 설정하나요? 갤럭시 S26 울트라에 새로 추가된 프라이버시 화면 기능, 정말 유용해 보이는데요. 이 기능을 활성화하려면 어떻게 해야 하는지 궁금합니다. 설정 메뉴 어디에 있는지, 혹은 특정 앱을 지정해서 그 앱에서만 프라이버시를 강화할 수 있는지 알고 싶어요. 혹시 이 기능을 사용하면서 주의해야 할 점이나 팁이 있다면 함께 알려주세요!',
-      date: '2주전',
-    },
-  ];
+function Ranking() {
+  const [bestUser, setBestUser] = useState([]);
+  const [bestList, setBestList] = useState([]);
 
+  const listSort = [...bestUser].sort(
+    (a, b) => b.questionCount - a.questionCount
+  );
+
+  useEffect(() => {
+    const getUser = async () => {
+      const response = await axiosInstance.get('/subjects/', {
+        params: {
+          limit: 3,
+        },
+      });
+      const { results } = response.data;
+      setBestUser(results);
+    };
+
+    getUser();
+
+    const hanldeLoadList = async () => {
+      const response = await axiosInstance.get('/subjects/13391/questions/', {
+        params: {
+          limit: 5,
+        },
+      });
+      const { results } = response.data;
+      setBestList(results);
+    };
+
+    hanldeLoadList();
+  }, []);
+
+  console.log(bestUser);
   return (
     <Container>
       <Header>
         <Logo size="small" />
-        <Button $variant="outline">질문하러 가기</Button>
+        <Button $variant="outline">
+          <Link to="/list">질문하러 가기</Link>
+        </Button>
       </Header>
-      <LankingWrap>
+      <RankingWrap>
         <div>
-          <Title>인기 질문자 순위</Title>
+          <Title>인기 답변자 순위</Title>
           <BestUser>
-            <UserCard />
-            <UserCard />
-            <UserCard />
+            {listSort.map((item) => (
+              <UserCard
+                key={item.id}
+                id={item.id}
+                name={item.name}
+                profileSrc={item.imageSource}
+                count={item.questionCount}
+              />
+            ))}
           </BestUser>
         </div>
 
         <div>
           <Title>인기 질문 순위</Title>
           <BestCard>
-            {bestUser.map((item, ranking) => (
-              <QuestionList>
-                <div key={item.id}>
+            {bestList.map((item, ranking) => (
+              <QuestionList key={item.id}>
+                <div>
                   <ItemNum>👍 BEST {ranking + 1}</ItemNum>
-                  <ItemContent>{item.question}</ItemContent>
+                  <ItemContent>{item.name}</ItemContent>
                 </div>
                 <Count>
                   <LikeButton />
@@ -57,25 +83,26 @@ function Lanking() {
             ))}
           </BestCard>
         </div>
-      </LankingWrap>
+      </RankingWrap>
     </Container>
   );
 }
 
-export default Lanking;
+export default Ranking;
 
 const Container = styled.div`
   max-width: 934px;
   margin: 0 auto;
+  padding-bottom: 40px;
 
   @media only screen and (max-width: 1200px) {
     width: 100%;
-    padding: 0 32px;
+    padding: 0 32px 40px;
   }
 
   @media only screen and (max-width: 375px) {
     width: 100%;
-    padding: 0 24px;
+    padding: 0 24px 40px;
   }
 `;
 
@@ -83,13 +110,13 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 40px 0 46px;
+  padding: 40px 0 46px;
   @media only screen and (max-width: 375px) {
     flex-direction: column;
   }
 `;
 
-const LankingWrap = styled.div`
+const RankingWrap = styled.div`
   display: flex;
   flex-direction: column;
   gap: 40px;
