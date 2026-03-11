@@ -30,9 +30,9 @@ function Ranking() {
     getUser();
 
     const hanldeLoadList = async () => {
-      const response = await axiosInstance.get('/subjects/13391/questions/', {
+      const response = await axiosInstance.get('/subjects/?limit=3', {
         params: {
-          limit: 5,
+          limit: 3,
         },
       });
       const { results } = response.data;

@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import InputField from './InputField';
 import PrimaryButton from './PrimaryButton';
-import postSubjects from '../../apis/home/postSubjects';
+import postSubjects from '../../apis/subjects/postSubjects';
 import { useState } from 'react';
 
 const Login = ({ placeholder }) => {

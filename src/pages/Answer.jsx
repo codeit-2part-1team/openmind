@@ -1,9 +1,9 @@
-import Layout from "../components/common/Layout";
-import CardFrame from "../components/common/CardFrame";
-import { useState } from "react";
-import styled from "styled-components";
+import Layout from '../components/common/Layout';
+import CardFrame from '../components/common/CardFrame';
+import { useState } from 'react';
+import styled from 'styled-components';
 
-export default function AnswerPage() {
+export default function Answer() {
 
   // MockData
   const [questions, setQuestions] = useState([
@@ -64,7 +64,7 @@ export default function AnswerPage() {
 const AnswerContainer = styled.div`
   display: flex;
   justify-content: flex-end;
-`
+`;
 
 const DeleteButton = styled.button`
   display: flex;

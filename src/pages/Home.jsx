@@ -5,7 +5,7 @@ import MainImg from '../assets/images/image-main.svg';
 import Login from '../components/home/Login';
 import Logo from '../components/common/Logo';
 import Button from '../components/common/Button';
-import deleteSubjects from '../apis/home/deleteSubjects';
+import deleteSubjects from '../apis/subjects/deleteSubjects';
 
 const Home = () => {
   const navigate = useNavigate();
