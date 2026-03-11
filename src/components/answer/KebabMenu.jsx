@@ -24,13 +24,15 @@ export default function KebabMenu({
 
       {open && (
         <Dropdown>
-          <MenuItem onClick={handleEdit}>
+          {onEdit && (
+            <MenuItem onClick={handleEdit}>
             <Icon>
               <EditIcon />
             </Icon>
             수정하기
           </MenuItem>
-
+          )}
+          
           <MenuItem onClick={handleDelete}>
             <Icon>
               <DeleteIcon />
