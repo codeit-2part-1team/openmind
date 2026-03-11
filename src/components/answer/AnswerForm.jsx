@@ -1,8 +1,8 @@
-import { useState } from "react"
-import styled from "styled-components";
-import InputTextArea from "../common/InputTextArea";
+import { useState } from 'react';
+import styled from 'styled-components';
+import InputTextArea from '../common/InputTextArea';
 
-const AnswerForm = ({ onSubmit, defaultValue = "" }) => {
+const AnswerForm = ({ onSubmit, defaultValue = '' }) => {
   const [value, setValue] = useState(defaultValue);
 
   const handleChange = (e) => {
@@ -16,7 +16,7 @@ const AnswerForm = ({ onSubmit, defaultValue = "" }) => {
 
     if (!text) return;
 
-    console.log("답변 완료:", text);
+    console.log('답변 완료:', text);
     onSubmit?.(text);
   };
 
@@ -28,15 +28,12 @@ const AnswerForm = ({ onSubmit, defaultValue = "" }) => {
         placeholder="답변을 입력해주세요"
       />
 
-      <SubmitButton
-        disabled={!value.trim()}
-        onClick={handleSubmit}
-      >
+      <SubmitButton disabled={!value.trim()} onClick={handleSubmit}>
         답변 완료
       </SubmitButton>
     </FormContainer>
-  )
-}
+  );
+};
 
 const FormContainer = styled.div`
   display: flex;
@@ -60,10 +57,9 @@ const SubmitButton = styled.button`
   align-self: stretch;
   border-radius: 8px;
   background: ${({ disabled }) =>
-    disabled ? "var(--brown-30)" : "var(--brown-40)"};
+    disabled ? 'var(--brown-30)' : 'var(--brown-40)'};
   color: var(--grayScale-10);
-  cursor: ${({ disabled }) =>
-    disabled ? "default" : "pointer"};
+  cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};
 `;
 
 export default AnswerForm;
