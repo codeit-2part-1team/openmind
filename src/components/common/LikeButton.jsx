@@ -1,43 +1,43 @@
-import styled from "styled-components";
-import ThumbUp from "../../assets/icons/icon-thumbs-up.svg?react";
-import ThumbDown from "../../assets/icons/icon-thumbs-down.svg?react";
-import { useState } from "react";
+import styled from 'styled-components';
+import ThumbUp from '../../assets/icons/icon-thumbs-up.svg?react';
+import ThumbDown from '../../assets/icons/icon-thumbs-down.svg?react';
+import { useState } from 'react';
 
-export default function LikeButton() {
-  const [likeCount, setLikeCount] = useState(10);
-  const [dislikeCount, setDislikeCount] = useState(2);
+export default function LikeButton({ likeCounts, dislikeCounts }) {
+  const [likeCount, setLikeCount] = useState(likeCounts);
+  const [dislikeCount, setDislikeCount] = useState(dislikeCounts);
 
-  const [selected, setSelected] = useState(null); 
+  const [selected, setSelected] = useState(null);
   // null | "like" | "dislike"
 
   const handleLike = () => {
-    if (selected === "like") return;
+    if (selected === 'like') return;
 
-    if (selected === "dislike") {
+    if (selected === 'dislike') {
       setDislikeCount((prev) => prev - 1);
     }
 
     setLikeCount((prev) => prev + 1);
-    setSelected("like");
+    setSelected('like');
   };
 
   const handleDislike = () => {
-    if (selected === "dislike") return;
+    if (selected === 'dislike') return;
 
-    if (selected === "like") {
+    if (selected === 'like') {
       setLikeCount((prev) => prev - 1);
     }
 
     setDislikeCount((prev) => prev + 1);
-    setSelected("dislike");
+    setSelected('dislike');
   };
 
   return (
     <Wrapper>
       <Button
         onClick={handleLike}
-        $active={selected === "like"}
-        data-active={selected === "like"}
+        $active={selected === 'like'}
+        data-active={selected === 'like'}
       >
         <Icon>
           <ThumbUp />
@@ -47,8 +47,8 @@ export default function LikeButton() {
 
       <DislikeButton
         onClick={handleDislike}
-        $active={selected === "dislike"}
-        data-active={selected === "dislike"}
+        $active={selected === 'dislike'}
+        data-active={selected === 'dislike'}
       >
         <Icon>
           <ThumbDown />
@@ -77,7 +77,7 @@ const Button = styled.button`
     width: 16px;
     height: 16px;
   }
-  
+
   ${({ $active }) =>
     $active &&
     `
