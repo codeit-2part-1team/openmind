@@ -24,7 +24,7 @@ function Ranking() {
     //질문 순위
     const getList = async () => {
       setLoading(true);
-      const response = await getAllSubjects({ limit: 50, offset: 0 });
+      const response = await getAllSubjects({ limit: 200, offset: 0 });
       const idList = response.results.map((item) => item.id);
       const requests = idList.map((id) => getQuestion(id));
       const responses = await Promise.all(requests);
@@ -113,6 +113,7 @@ const Container = styled.div`
 
   @media only screen and (max-width: 1200px) {
     width: 100%;
+    max-width: initial;
     padding: 0 32px 40px;
   }
 
@@ -148,7 +149,7 @@ const BestUser = styled.div`
   display: flex;
   gap: 20px;
 
-  @media only screen and (max-width: 375px) {
+  @media only screen and (max-width: 768px) {
     flex-direction: column;
   }
 `;
@@ -202,6 +203,9 @@ const QuestionList = styled.div`
   box-shadow: var(--shadow-1pt);
   padding: 20px;
   border-radius: 16px;
+  &:hover {
+    box-shadow: var(--shadow-2pt);
+  }
 `;
 
 const ItemNum = styled.div`
@@ -223,7 +227,6 @@ const ItemContent = styled.div`
   // -webkit-box-orient: vertical;
   // -webkit-line-clamp: 3;
   &:hover {
-    text-decoration: underline;
     cursor: pointer;
   }
 `;
