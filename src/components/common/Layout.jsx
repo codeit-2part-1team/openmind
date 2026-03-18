@@ -1,24 +1,19 @@
 import { useState } from 'react';
-import { useNavigate, useParams, useLocation } from 'react-router-dom'; //useLocation 추가
+import { useNavigate, useParams } from 'react-router-dom'; //useLocation 추가
 import styled from 'styled-components';
 import heroImg from '../../assets/images/image-hero.svg';
 import Logo from '../common/Logo';
 import profileImg from '../../assets/images/image-profile.svg';
 import ShareButton from '../profile/ShareButton'; //공유버튼 활성화
 import QuestionButton from '../questionbutton/QuestionButton';
-import Modal from '../common/Modal'
-//질문 작성 버튼, 모달 추가
+//질문 작성 버튼
 
-//하단 children 옆에 profile 추가
-const Layout = ({ children, profile }) => {
+const Layout = ({ children, profile, isOwnProfile: propIsOwnProfile }) => {
   const navigate = useNavigate();
+  const loggedInId = localStorage.getItem('subjectId');
 
-  const [isModalOpen, setModalOpen] = useState(false);
-  const handleOpenModal = () => setModalOpen(true);
-  const handleCloseModal = () => setModalOpen(false);
-  //모달 열기 닫기 
-  const { id } = useParams();
-  const location = useLocation();
+  // props가 있으면 그대로 사용, 없으면 URL 기반으로 판단
+  const isOwnProfile = propIsOwnProfile ?? (loggedInId === String(profile?.id));
 
   return (
     <Final>
@@ -40,16 +35,7 @@ const Layout = ({ children, profile }) => {
           <ProfileImage
           //src={profileImg} -> 하단 테스트로 인한 임시 주석처리
           src={profile?.imageSource || profileImg} //테스트
-          alt="프로필 이미지"
-          onClick={() => { 
-            if (!id) return;
-            const target = `/post/${id}`;
-
-            if (location.pathname !== target) {
-              navigate(target);
-            }
-          }}
-          />
+          alt="프로필 이미지"/>
             {/* 상단의 onClick 부분 테스트로 임시 추가 */}
           { /* <Username>아초는고양이</Username> 하단 테스트로 인한 임시 주석처리 */}
           <Username>{profile?.name || '사용자'}</Username>
@@ -65,9 +51,10 @@ const Layout = ({ children, profile }) => {
         <QuestionContainer>
           {children}
         </QuestionContainer>
-      </MainContent>
-        <QuestionButton handleOpenModal={handleOpenModal} />
-        <Modal isOpen={isModalOpen} onClose={handleCloseModal} />
+        </MainContent>
+
+      {/* 질문 버튼 -> 내 페이지에서는 숨김 */}
+      {/* {!isOwnProfile && onOpenModal && <QuestionButton handleOpenModal={onOpenModal} />} */}
     </Final>
   );
 };
@@ -112,14 +99,7 @@ const ProfileImage = styled.img`
   width: 136px;
   height: 136px;
   border-radius: 50%;
-  cursor: pointer;
-  transition: transform 0.2s;
-
-  &:hover {
-    transform: scale(1.05);
-  }
 `;
- /* 프로필 이미지; 위 cursor부터 hover까지 커서 변경입니다 */
 
 const Username = styled.h1`
   color: var(--grayScale-60);
@@ -130,12 +110,6 @@ const Username = styled.h1`
 const SNSContainer = styled.div`
   display: flex;
   gap: 8px;
-`;
-
-//sns 임시
-const Img = styled.img`
-  width: 40px;
-  height: 40px;
 `;
 
 const MainContent = styled.main`

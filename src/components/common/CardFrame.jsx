@@ -13,6 +13,7 @@ export default function CardFrame({
   showAnswerForm = false,
   deleteSignal,
   setQuestionCount,
+  questionTrigger, //테스트 추가
 }) {
   const [cardList, setCardList] = useState([]);
   const [offset, setOffset] = useState(0);
@@ -25,38 +26,46 @@ export default function CardFrame({
 
   const isEmpty = cardList.length === 0;
 
-  const fetchQuestions = async () => {
-  if (loading || !hasMore) return;
-  if (requestedOffsetsRef.current.has(offset)) return;
+  const fetchQuestions = async (reset = false) => {
+  if (loading && !reset) return; // reset 시 loading 무시
+  const fetchOffset = reset ? 0 : offset;
+  if (!reset && requestedOffsetsRef.current.has(offset)) return;
 
   try {
     requestedOffsetsRef.current.add(offset);
     setLoading(true);
 
-    const subjectData = JSON.parse(localStorage.getItem("subjectId"));
-    const subjectId = subjectData?.id;
+    // const subjectData = JSON.parse(localStorage.getItem("subjectId"));
+    // const subjectId = subjectData?.id;
 
-    if (!subjectId) {
-      console.error("subjectId가 없습니다.");
+    // reset이면 offset 0부터, 요청 기록 초기화
+    const fetchOffset = reset ? 0 : offset;
+    if (reset) requestedOffsetsRef.current.clear();
+
+    if (!subjectID) {
+      console.error("subjectID가 없습니다.");
       return;
     }
 
-    const res = await getQuestions(subjectId, 3, offset);
+    const res = await getQuestions(subjectID, 3, fetchOffset);
     const results = res?.results ?? [];
 
     setTotalCount(res?.count ?? 0);
 
     setCardList((prev) => {
       const map = new Map();
-
-      [...prev, ...results].forEach((item) => {
-        map.set(item.id, item);
-      });
+      
+      if (reset) {
+        results.forEach(item => map.set(item.id, item));
+      } else {
+      [...prev, ...results].forEach(item => map.set(item.id, item));
+        }
 
       return Array.from(map.values());
     });
 
-    setOffset((prev) => prev + 3);
+    setOffset(fetchOffset + 3);
+    requestedOffsetsRef.current.add(fetchOffset);
 
     if (res?.next === null) {
       setHasMore(false);
@@ -71,6 +80,13 @@ export default function CardFrame({
   useEffect(() => {
     fetchQuestions();
   }, []);
+
+  // questionTrigger 변경 시 새로고침 없이 갱신
+  useEffect(() => {
+    if (questionTrigger !== undefined) {
+      fetchQuestions(true); // reset 옵션으로 새로 fetch
+      }
+  }, [questionTrigger]);
 
   useEffect(() => {
     if (setQuestionCount) {

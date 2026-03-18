@@ -81,13 +81,13 @@ const handleKakaoShare = () => {
   return (
     <>
       <Wrapper>
-        <Icon brown onClick={handleCopyLink}>
+        <Icon $brown onClick={handleCopyLink}>
           <img src={LinkIcon} alt="링크" />
         </Icon>
-        <Icon yellow onClick={handleKakaoShare}>
+        <Icon $yellow onClick={handleKakaoShare}>
           <img src={KakaoIcon} alt="카카오톡" />
         </Icon>
-        <Icon blue onClick={handleFacebookShare}>
+        <Icon $blue onClick={handleFacebookShare}>
           <img src={FacebookIcon} alt="페이스북" />
         </Icon>
       </Wrapper>
@@ -117,9 +117,9 @@ const Icon = styled.button`
   justify-content: center;
 
   background: ${(props) =>
-    props.brown ? "#542F1A"
-    : props.yellow ? "#FEE500"
-    : props.blue ? "#1877F2"
+    props.$brown ? "#542F1A"
+    : props.$yellow ? "#FEE500"
+    : props.$blue ? "#1877F2"
     : "#f0f0f0"};
 
   img {
@@ -128,6 +128,6 @@ const Icon = styled.button`
     height: 18px;
 
     /* 노란 배경이면 검정 아이콘 */
-    filter: ${(props) => (props.yellow ? "none" : "invert(1)")};
+    filter: ${(props) => (props.$yellow ? "none" : "invert(1)")};
   }
 `;

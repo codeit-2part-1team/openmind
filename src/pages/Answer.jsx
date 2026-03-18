@@ -2,21 +2,28 @@ import Layout from '../components/common/Layout';
 import CardFrame from '../components/common/CardFrame';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getSubject } from '../apis/subjects/getSubject';
+
 
 export default function Answer() {
   const [deleteSignal, setDeleteSignal] = useState(0);
   const [questionCount, setQuestionCount] = useState(0);
+  const [profile, setProfile] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const subjectData = JSON.parse(localStorage.getItem('subjectId'));
-    const subjectId = subjectData?.id;
+   // url에서 id 가져오기
+  const { id } = useParams(); // id 추출
 
-    if (!subjectId) {
+  // 내 프로필인지 여부
+  const loggedInId = String(JSON.parse(localStorage.getItem('subjectId'))?.id); 
+  const isOwnProfile = loggedInId === id;
+
+  useEffect(() => {
+    if (!id && !storedId) {
       navigate('/');
     }
-  }, [navigate]);
+  }, [id, navigate]);
 
 
   const handleDeleteAll = () => {
@@ -28,8 +35,8 @@ export default function Answer() {
 
  // post id 기준으로 바로 프로필 가져오기
   useEffect(() => {
+    const fetchProfile = async () => {
       if (!id) return;
-      const fetchProfile = async () => {
       try {
         const data = await getSubject(id);
         setProfile(data);
@@ -42,7 +49,7 @@ export default function Answer() {
   }, [id]);
 
   return (
-    <Layout>
+    <Layout profile={profile} isOwnProfile={isOwnProfile}>
 
       <AnswerContainer>
         {questionCount > 0 && (
@@ -53,7 +60,7 @@ export default function Answer() {
       </AnswerContainer>
 
       <CardFrame
-        subjectID={id}
+        subjectID={loggedInId}
         profile={profile}
         showMenu={true}
         showAnswerForm={true}
