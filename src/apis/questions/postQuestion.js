@@ -1,11 +1,10 @@
-import axiosInstance from "../axiosInstance"
+import axiosInstance from '../axiosInstance';
 
 const postQuestion = async (subjectId, content) => {
   try {
-    const res = await axiosInstance.post(
-      `/subjects/${subjectId}/questions/`,
-      { content }
-    );
+    const res = await axiosInstance.post(`/subjects/${subjectId}/questions/`, {
+      content,
+    });
 
     return res.data;
   } catch (error) {

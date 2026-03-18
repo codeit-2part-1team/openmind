@@ -24,7 +24,7 @@ function Ranking() {
     //질문 순위
     const getList = async () => {
       setLoading(true);
-      const response = await getAllSubjects({ limit: 1000 });
+      const response = await getAllSubjects({ limit: 200 });
       const topSubjects = response.results
         .sort((a, b) => b.questionCount - a.questionCount)
         .slice(0, 10);
@@ -46,7 +46,6 @@ function Ranking() {
     .sort((a, b) => b.like - b.dislike - (a.like - a.dislike))
     .slice(0, 3);
 
-  console.log(bestList);
   return (
     <Container>
       <Header>
